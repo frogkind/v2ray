@@ -25,7 +25,7 @@ while :; do
 	fi
 done
 
-if [[ $caddy && $is_uninstall_v2ray ]] && [[ -f /usr/local/bin/caddy && -f /etc/caddy/Caddyfile ]]; then
+if [[ $caddy && $is_uninstall_v2ray ]] && [[ -f /usr/bin/caddy && -f /etc/caddy/Caddyfile ]]; then
 	while :; do
 		echo
 		read -p "$(echo -e "是否卸载 ${yellow}Caddy$none [${magenta}Y/N$none]:")" uninstall_caddy_ask
@@ -93,7 +93,7 @@ if [[ $is_uninstall_v2ray && $is_uninstall_caddy ]]; then
 	# [ $caddy_pid ] && systemctl stop caddy
 	[ $caddy_pid ] && do_service stop caddy
 
-	rm -rf /usr/local/bin/caddy
+	rm -rf /usr/bin/caddy
 	rm -rf /etc/caddy
 	rm -rf /etc/ssl/caddy
 

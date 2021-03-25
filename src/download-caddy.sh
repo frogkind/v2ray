@@ -15,16 +15,16 @@ _download_caddy_file() {
 	fi
 
 	tar zxf $caddy_tmp_file -C $caddy_tmp
-	cp -f ${caddy_tmp}caddy /usr/local/bin/
+	cp -f ${caddy_tmp}caddy /usr/bin/
 
 	# wget -qO- https://getcaddy.com | bash -s personal
 
-	if [[ ! -f /usr/local/bin/caddy ]]; then
+	if [[ ! -f /usr/bin/caddy ]]; then
 		echo -e "$red 安装 Caddy 出错！$none" && exit 1
 	fi
 }
 _install_caddy_service() {
-	# setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/caddy
+	# setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/caddy
 
 	if [[ $systemd ]]; then
 		cp -f ${caddy_tmp}init/linux-systemd/caddy.service /lib/systemd/system/
@@ -53,7 +53,7 @@ _install_caddy_service() {
 		# 	Restart=always
 		# 	RestartSec=3
 		# 	Environment=CADDYPATH=/root/.caddy
-		# 	ExecStart=/usr/local/bin/caddy -log stdout -agree=true -conf=/etc/caddy/Caddyfile -root=/var/tmp
+		# 	ExecStart=/usr/bin/caddy -log stdout -agree=true -conf=/etc/caddy/Caddyfile -root=/var/tmp
 		# 	ExecReload=/bin/kill -USR1 $MAINPID
 		# 	KillMode=mixed
 		# 	KillSignal=SIGQUIT

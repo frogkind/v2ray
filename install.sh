@@ -57,7 +57,8 @@ if [[ $(command -v apt-get) || $(command -v yum) ]] && [[ $(command -v systemctl
 		cmd="yum"
 
 	fi
-
+elif [[ $(swupd --help) ]]; then
+	cmd="swupd"
 else
 
 	echo -e " 
@@ -73,7 +74,7 @@ old_id="e55c8d17-2cf3-b21a-bcf1-eeacb011ed79"
 v2ray_server_config="/etc/v2ray/config.json"
 v2ray_client_config="/etc/v2ray/233blog_v2ray_config.json"
 backup="/etc/v2ray/233blog_v2ray_backup.conf"
-_v2ray_sh="/usr/local/sbin/v2ray"
+_v2ray_sh="/usr/sbin/V2ray"
 systemd=true
 # _test=true
 
@@ -783,6 +784,29 @@ install_v2ray() {
 	$cmd update -y
 	if [[ $cmd == "apt-get" ]]; then
 		$cmd install -y lrzsz git zip unzip curl wget qrencode libcap2-bin dbus
+	elif [[ $cmd == "swupd" ]]; then
+		workdir=`pwd`
+		# git...
+		$cmd bundle-add git zip unzip curl wget devpkg-zlib devpkg-libpng devpkg-libcap
+		# lrzsz
+		cd $workdir
+		wget https://ohse.de/uwe/releases/lrzsz-0.12.20.tar.gz
+		tar -zxvf lrzsz-0.12.20.tar.gz
+		cd lrzsz-0.12.20
+		./configure –prefix=/usr
+		make
+		sudo make install
+		# qrencode
+		cd $workdir
+		wget https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.gz
+		tar -xvf qrencode-4.1.1.tar.gz
+		cd qrencode-4.1.1
+		export png_CFLAGS="-I/usr/include/libpng16"
+		export png_LIBS="-L//usr/lib64 -lpng"
+		./configure --prefix=/usr
+		make
+		sudo make install
+		cd $workdir
 	else
 		# $cmd install -y lrzsz git zip unzip curl wget qrencode libcap iptables-services
 		$cmd install -y lrzsz git zip unzip curl wget qrencode libcap

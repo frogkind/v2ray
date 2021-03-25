@@ -117,11 +117,11 @@ mtproto_secret=lalala
 #---- 屏蔽 BT -----
 ban_bt=true
 		EOF
-if [[ -f /usr/local/bin/v2ray ]]; then
-	cp -f /etc/v2ray/233boy/v2ray/v2ray.sh /usr/local/sbin/v2ray
-	chmod +x /usr/local/sbin/v2ray
+if [[ -f /usr/bin/v2ray ]]; then
+	cp -f /etc/v2ray/233boy/v2ray/v2ray.sh /usr/sbin/V2ray
+	chmod +x /usr/sbin/V2ray
 	rm -rf $backup
-	rm -rf /usr/local/bin/v2ray
+	rm -rf /usr/bin/v2ray
 fi
 
 echo
